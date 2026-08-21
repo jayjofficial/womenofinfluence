@@ -29,58 +29,39 @@ const applicationSchema = z.object({
   }),
   fullName: z
     .string()
-    .min(2, "Full name must be at least 2 characters.")
-    .max(100, "Full name is too long.")
-    .transform(sanitizeString),
+    .min(3, "Name must be at least 3 characters.")
+    .max(100, "Name must be under 100 characters.")
+    .transform((val) => sanitizeString(val)),
   email: z
     .string()
     .email("Please enter a valid email address.")
-    .transform((val) => sanitizeString(val.toLowerCase())),
+    .transform((val) => sanitizeString(val)),
   phone: z
     .string()
-    .min(5, "Phone number is too short.")
-    .max(25, "Phone number is too long.")
-    .regex(/^[\d\s+\-()]{5,25}$/, "Invalid phone number format.")
-    .transform(sanitizeString),
+    .min(8, "Phone number is too short.")
+    .max(20, "Phone number is too long.")
+    .transform((val) => sanitizeString(val)),
   country: z
     .string()
     .min(2, "Country is required.")
     .max(50, "Country name is too long.")
-    .transform(sanitizeString),
+    .transform((val) => sanitizeString(val)),
   pillars: z
-    .array(
-      z.enum([
-        "Spiritual Leadership & Ministry",
-        "Family & Relationships",
-        "Education & Academia",
-        "Business & Finance",
-        "Government & Politics",
-        "Media & Communication",
-        "Arts, Entertainment & Innovation",
-        "I'm not sure yet",
-      ]),
-    )
-    .min(1, "Please select at least one pillar."),
+    .array(z.string())
+    .min(1, "Please select at least one pillar that resonates with you."),
   whyJoin: z
     .string()
-    .min(10, "Please provide a detailed response (at least 10 characters).")
-    .max(1500, "Your response is too long.")
-    .transform(sanitizeString),
+    .min(10, "Please share a bit more detail (minimum 10 characters).")
+    .max(1000, "Please keep this under 1000 characters.")
+    .transform((val) => sanitizeString(val)),
   vision: z
     .string()
-    .min(10, "Please provide a detailed response (at least 10 characters).")
-    .max(1500, "Your response is too long.")
-    .transform(sanitizeString),
+    .min(10, "Please share a bit more detail (minimum 10 characters).")
+    .max(1000, "Please keep this under 1000 characters.")
+    .transform((val) => sanitizeString(val)),
   referral: z
-    .enum([
-      "Social Media",
-      "A Friend or Family Member",
-      "Church / Ministry",
-      "Google / Online Search",
-      "WhatsApp / Telegram",
-      "Other",
-      "",
-    ])
+    .string()
+    .max(100, "Referral note is too long.")
     .optional()
     .transform((val) => (val ? sanitizeString(val) : "")),
 });

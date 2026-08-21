@@ -37,6 +37,11 @@ export const SUPPORTED_CURRENCIES: Record<string, CurrencyConfig> = {
   ZWG: { code: "ZWG", symbol: "ZiG", label: "ZWG (ZiG)", flag: "🇿🇼" },
 };
 
+export const isAfricanCurrency = (currencyCode: string): boolean => {
+  const international = ["USD", "GBP", "EUR", "CAD"];
+  return !international.includes(currencyCode.toUpperCase());
+};
+
 // Fallback rates if API fails (1 GHS to X)
 const FALLBACK_RATES: Record<string, number> = {
   GHS: 1.0,

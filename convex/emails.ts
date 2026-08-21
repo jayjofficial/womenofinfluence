@@ -93,6 +93,7 @@ export const sendSponsorshipConfirmation = action({
     eurIban: v.optional(v.string()),
     eurBankName: v.optional(v.string()),
     eurSwiftCode: v.optional(v.string()),
+    isBackup: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
     const webhookUrl = process.env.MAKE_SPONSORSHIP_WEBHOOK;
@@ -101,7 +102,8 @@ export const sendSponsorshipConfirmation = action({
       return;
     }
 
-    console.log(`📤 Sending sponsorship intent webhook to Make for: ${args.name} (${args.email})...`);
+    const eventName = args.isBackup ? "sponsorship_backup_bank_details" : "sponsorship_intent_submitted";
+    console.log(`📤 Sending sponsorship bank details webhook (${eventName}) to Make for: ${args.name} (${args.email})...`);
 
     try {
       const response = await fetch(webhookUrl, {
@@ -123,7 +125,9 @@ export const sendSponsorshipConfirmation = action({
           eurIban: args.eurIban,
           eurBankName: args.eurBankName,
           eurSwiftCode: args.eurSwiftCode,
-          event: "sponsorship_intent_submitted",
+          event: eventName,
+          type: "bank_details",
+          isBackup: args.isBackup ?? false,
           timestamp: Date.now(),
         }),
       });
@@ -133,6 +137,51 @@ export const sendSponsorshipConfirmation = action({
       }
     } catch (error) {
       console.error("❌ Failed to send sponsorship confirmation to Make:", error);
+    }
+  }
+});
+
+export const sendSponsorshipPaymentSuccess = action({
+  args: {
+    email: v.string(),
+    name: v.string(),
+    amountDisplay: v.string(),
+    currency: v.optional(v.string()),
+    paymentReference: v.optional(v.string()),
+    organization: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const webhookUrl = process.env.MAKE_PAYMENT_SUCCESS_WEBHOOK || process.env.MAKE_SPONSORSHIP_WEBHOOK;
+    if (!webhookUrl) {
+      console.warn("⚠️ MAKE_SPONSORSHIP_WEBHOOK / MAKE_PAYMENT_SUCCESS_WEBHOOK is not set. Skipping webhook.");
+      return;
+    }
+
+    console.log(`📤 Sending sponsorship payment success (Thank You) webhook to Make for: ${args.name} (${args.email})...`);
+
+    try {
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: args.email,
+          name: args.name,
+          organization: args.organization,
+          amountDisplay: args.amountDisplay,
+          currency: args.currency,
+          paymentReference: args.paymentReference,
+          status: "success",
+          event: "sponsorship_payment_success",
+          type: "payment_thank_you",
+          timestamp: Date.now(),
+        }),
+      });
+      console.log(`📥 Make responded with status: ${response.status} (${response.statusText})`);
+      if (!response.ok) {
+        throw new Error(`Make returned status ${response.status}`);
+      }
+    } catch (error) {
+      console.error("❌ Failed to send sponsorship payment success to Make:", error);
     }
   }
 });

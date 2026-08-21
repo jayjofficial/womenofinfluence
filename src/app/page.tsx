@@ -287,15 +287,15 @@ const Index = () => {
       <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-12 bg-ivory pb-24">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
-            <div className="bg-plum text-ivory rounded-4xl px-6 py-12 lg:px-8 lg:py-24 shadow-2xl relative overflow-hidden">
+            <div className="bg-plum text-ivory rounded-4xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-24 shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-full bg-linear-to-br from-wine to-plum opacity-50"></div>
 
-              <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 text-center divide-y md:divide-y-0 md:divide-x divide-champagne/20">
+              <div className="relative z-10 grid grid-cols-3 gap-2 sm:gap-6 md:gap-12 lg:gap-16 text-center divide-x divide-champagne/20">
                 {isSettingsLoading ? (
                   Array.from({ length: 3 }).map((_, idx) => (
-                    <div key={idx} className="pt-8 md:pt-0 flex flex-col items-center justify-center space-y-4 px-4">
-                      <Skeleton className="h-16 w-24 bg-ivory/10" />
-                      <Skeleton className="h-4 w-32 bg-ivory/10" />
+                    <div key={idx} className="flex flex-col items-center justify-center space-y-2 px-2">
+                      <Skeleton className="h-10 w-12 sm:h-16 sm:w-24 bg-ivory/10 animate-pulse" />
+                      <Skeleton className="h-3 w-16 sm:w-32 bg-ivory/10 animate-pulse" />
                     </div>
                   ))
                 ) : (
@@ -304,11 +304,11 @@ const Index = () => {
                     { value: stat2Value, label: stat2Label },
                     { value: stat3Value, label: stat3Label },
                   ].map((stat) => (
-                    <div key={stat.label} className="pt-8 md:pt-0">
-                      <div className="text-5xl sm:text-6xl lg:text-8xl font-display text-champagne mb-3 lg:mb-4 font-light">
+                    <div key={stat.label} className="px-1 sm:px-4">
+                      <div className="text-4xl sm:text-6xl lg:text-8xl font-display text-champagne mb-2 lg:mb-4 font-light">
                         {stat.value}
                       </div>
-                      <div className="text-[10px] sm:text-xs tracking-[0.3em] uppercase text-ivory/80">
+                      <div className="text-[9px] sm:text-xs tracking-[0.15em] sm:tracking-[0.3em] uppercase text-ivory/80 font-medium">
                         {stat.label}
                       </div>
                     </div>
