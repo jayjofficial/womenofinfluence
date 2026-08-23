@@ -2,12 +2,12 @@ import type { NextConfig } from "next";
 import { cwd } from "process";
 
 const nextConfig: NextConfig = {
-  // Resolve the multiple lockfiles workspace root warning
-
+  output: "export",
   turbopack: {
     root: cwd(),
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
