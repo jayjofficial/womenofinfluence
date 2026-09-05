@@ -1,14 +1,27 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
-User-agent: Twitterbot
+User-agent: Applebot
 Allow: /
 
-User-agent: facebookexternalhit
+# AI Discovery & Search Crawlers
+User-agent: Google-Extended
 Allow: /
 
-User-agent: *
+User-agent: GPTBot
 Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Sitemap Index
+Sitemap: https://www.womeninfluencial.com/sitemap.xml
