@@ -11,7 +11,11 @@ import { CurrencyProvider } from "@/context/CurrencyContext";
 export const metadata: Metadata = {
   title: "Women of Influence Academy",
   description: "Empowering women through mentorship, education, and community.",
+  verification: {
+    google: "8Sd10_DKAR22hODbkQ2WFjf3ZcFjuzcQjYd9rbu6wdc",
+  },
 };
+
 
 export default function RootLayout({
   children,
