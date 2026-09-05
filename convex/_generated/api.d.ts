@@ -80,4 +80,7 @@ export declare const internal: FilterApi<
   FunctionReference<any, "internal">
 >;
 
-export declare const components: {};
+export declare const components: {
+  resend: import("@convex-dev/resend/_generated/component.js").ComponentApi<"resend">;
+  r2: import("@convex-dev/r2/_generated/component.js").ComponentApi<"r2">;
+};

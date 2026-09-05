@@ -35,7 +35,7 @@ export default defineSchema({
   // Global Settings
   globalSettings: defineTable({
     // Hero Section
-    heroImageId: v.optional(v.id("_storage")),
+    heroImageId: v.optional(v.union(v.string(), v.id("_storage"))),
     heroQuote: v.string(),
     heroQuoteAuthor: v.string(),
     
@@ -92,8 +92,8 @@ export default defineSchema({
     name: v.string(),
     role: v.string(),
     quote: v.optional(v.string()), // For written
-    imageId: v.optional(v.id("_storage")), // Uploaded via Convex Storage
-    videoId: v.optional(v.id("_storage")), // Uploaded via Convex Storage
+    imageId: v.optional(v.union(v.string(), v.id("_storage"))), // Uploaded via R2 or Convex Storage
+    videoId: v.optional(v.union(v.string(), v.id("_storage"))), // Uploaded via R2 or Convex Storage
     type: v.union(v.literal("written"), v.literal("video"), v.literal("success_story")),
     achievement: v.optional(v.string()), // For success stories
   }),
@@ -104,14 +104,14 @@ export default defineSchema({
     founder: v.string(),
     description: v.string(),
     website: v.string(),
-    imageId: v.optional(v.id("_storage")), // Uploaded via Convex Storage
+    imageId: v.optional(v.union(v.string(), v.id("_storage"))), // Uploaded via R2 or Convex Storage
   }),
 
   // Gallery (Images, Videos, Awards)
   gallery: defineTable({
     caption: v.string(),
     category: v.string(),
-    fileId: v.id("_storage"), // Uploaded via Convex Storage
+    fileId: v.union(v.string(), v.id("_storage")), // Uploaded via R2 or Convex Storage
     type: v.union(v.literal("image"), v.literal("video"), v.literal("award")),
   }),
 
@@ -167,7 +167,7 @@ export default defineSchema({
     name: v.string(),
     role: v.string(),
     bio: v.optional(v.string()),
-    imageId: v.optional(v.id("_storage")), // Uploaded via Convex Storage
+    imageId: v.optional(v.union(v.string(), v.id("_storage"))), // Uploaded via R2 or Convex Storage
     order: v.number(),
   }),
 
@@ -184,6 +184,6 @@ export default defineSchema({
     licenseName: v.string(),
     licenseNumber: v.string(),
     flagCode: v.optional(v.string()), // e.g., "ca", "ng", "gh"
-    imageId: v.optional(v.id("_storage")), // custom logo/flag
+    imageId: v.optional(v.union(v.string(), v.id("_storage"))), // custom logo/flag
   })
 });
